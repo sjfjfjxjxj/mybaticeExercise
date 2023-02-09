@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+	<resultMap type="notice.model.vo.Notice" id="noticeResultMap">
+		<id 	property="noticeNo" 		column="NOTICE_NO" />
+		<result property="noticeNo" 		column="NOTICE_NO"/>
+		<result property="noticeSubject" 	column="NOTICE_SUBJECT"/>
+		<result property="noticeContent" 	column="NOTICE_CONTENT"/>
+		<result property="noticeWriter" 	column="NOTICE_WRITER"/>
+		<result property="noticeDate" 		column="NOTICE_DATE"/>
+		<result property="viewCount" 		column="VIEW_COUNT"/>
+	
+	</resultMap>	
+					
+							<!-- 이 파라미터타입 덕분에 샵으로 값 가져올수 있는것  -->
+	<insert id="insertNotice" parameterType="notice.model.vo.Notice">			
+		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICENO.NEXTVAL, #{noticeSubject}, #{noticeContent}, #{noticeWriter}, DEFAULT,DEFAULT)
+															<!-- 샵안에 vo에 있는 변수들 그대로 적어주기. 게터 안써도됨 -->
+	</insert>
+									<!-- 리절트타입은 셀렉트에만 써준대. 
+									이걸 써주면 오라클에 있는 테이블 칼럼이랑 vo 변수랑 매핑이 됨
+									프로퍼티랑 컬럼명이 같으면 바로 매핑되는데, 아님
+									그래서 다시 리절트맵으로 매핑시켜서 위로 빼줌 -->
+	<select id="selectAllNotice"  resultMap="noticeResultMap"> 
+		SELECT * FROM NOTICE_TBL
+	</select>
+	
+	<select id="selectOneNotice"  resultMap="noticeResultMap"> 
+		SELECT NOTICE_NO, NOTICE_SUBJECT, VIEW_COUNT, NOTICE_CONTENT FROM NOTICE_TBL WHERE NOTICE_NO=#{noticeNo}
+	</select>
+	
+<!-- 	<update id=""> -->
+<!-- 		UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject} -->
+<!-- 	</update> -->
+<!-- 	<delete id=""> -->
+	
+<!-- 	</delete> -->
+	
+</mapper>
+
+
+

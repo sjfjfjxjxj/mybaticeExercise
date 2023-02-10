@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import notice.model.vo.Notice;
+import notice.model.vo.Pagenation;
 
 public interface NoticeStore {
 	
@@ -19,15 +20,51 @@ public interface NoticeStore {
 	/**
 	 * 공지사항 목록조회 store(dAO)
 	 * @param sqlSession
-	 * @return
+	 * @return List
 	 */
-	public List<Notice> selectAllNotice(SqlSession sqlSession);
+	public List<Notice> selectAllNotice(SqlSession sqlSession, Pagenation pagenation);
+	
+	/**
+	 * 공지사항 목록 페이지 네비게이터 store
+	 * @param sqlSession
+	 * @param currentPage
+	 * @return String
+	 */
+	public String generatePageNavi(SqlSession sqlSession, int currentPage);
 
+	/**
+	 * 공지사항 전체 게시물 개수 store
+	 * @param sqlSession
+	 * @return int
+	 */
+	public int getRecordTotalCount(SqlSession sqlSession);
+	
 	/**
 	 * 공지사항 개별 조회 store(dao)
 	 * @param sqlSession
 	 * @param noticeNo
-	 * @return
+	 * @return Notice
 	 */
-	public Notice selectOneNotice(SqlSession sqlSession, int noticeNo);
+	public Notice selectOneByNo(SqlSession sqlSession, int noticeNo);
+	
+	/**
+	 * 공지사항 삭제 store(da0)
+	 * @param sqlSession
+	 * @param noticeNo
+	 * @return int
+	 */
+	public int deleteNotice(SqlSession sqlSession, int noticeNo);
+	
+	/**
+	 * 공지사항 수정 store(dao)
+	 * @param sqlSession
+	 * @param noticeNo
+	 * @return int
+	 */
+	public int updateNotice(SqlSession sqlSession, Notice notice);
+	
+	
 }
+
+
+

@@ -17,6 +17,15 @@ public class Notice {
 		this.noticeSubject = noticeSubject;
 		this.noticeContent = noticeContent;
 		this.noticeWriter = noticeWriter;
+		
+	}
+	
+	public Notice(int noticeNo, String noticeSubject, String noticeContent, String noticeWriter) {
+		super();
+		this.noticeSubject = noticeSubject;
+		this.noticeContent = noticeContent;
+		this.noticeWriter = noticeWriter;
+		this.noticeNo = noticeNo;
 	}
 
 	public int getNoticeNo() {

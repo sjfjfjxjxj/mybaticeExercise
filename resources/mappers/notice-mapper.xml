@@ -21,22 +21,31 @@
 	</insert>
 									<!-- 리절트타입은 셀렉트에만 써준대. 
 									이걸 써주면 오라클에 있는 테이블 칼럼이랑 vo 변수랑 매핑이 됨
-									프로퍼티랑 컬럼명이 같으면 바로 매핑되는데, 아님
+									프로퍼티랑 컬럼명이 같으면 바로 매핑되는데(그래서 생략도 가능해짐), 아님
 									그래서 다시 리절트맵으로 매핑시켜서 위로 빼줌 -->
-	<select id="selectAllNotice"  resultMap="noticeResultMap"> 
-		SELECT * FROM NOTICE_TBL
+	<select id="selectAllNotice"  resultMap="noticeResultMap" parameterType="notice.model.vo.Pagenation"> 
+		SELECT * FROM(SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS NUM, NOTICE_TBL.* FROM NOTICE_TBL) WHERE NUM BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="selectOneNotice"  resultMap="noticeResultMap"> 
-		SELECT NOTICE_NO, NOTICE_SUBJECT, VIEW_COUNT, NOTICE_CONTENT FROM NOTICE_TBL WHERE NOTICE_NO=#{noticeNo}
+	<!-- 스토어로직에서 넘어오는 아이디값, 매개변수!(안적어도 됨), 셀렉트할땐 매핑해야하니까 리절트맵! -->
+	<select id="selectOneByNo"  parameterType = "_int" resultMap="noticeResultMap"> 
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO=#{noticeNo}
+	</select>
+									<!-- 정수 한개 나오니까 -->
+	<select id="selectTotalCount" resultType = "_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
 	</select>
 	
-<!-- 	<update id=""> -->
-<!-- 		UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject} -->
-<!-- 	</update> -->
-<!-- 	<delete id=""> -->
 	
-<!-- 	</delete> -->
+	<delete id="deleteNotice" parameterType="_int">
+		DELETE FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo}
+	</delete>
+	
+	<update id="updateNotice" >
+		UPDATE NOTICE_TBL SET NOTICE_SUBJECT=#{noticeSubject}, NOTICE_CONTENT=#{noticeContent} WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	
+
 	
 </mapper>
 

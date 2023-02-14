@@ -46,12 +46,14 @@
 			</tr>
 			
 			<tr><!-- 주말에 연습해보기!! -->
-				<form action = "" method="post">	
+				<form action = "/notice/list.do?notice-subject=" method="post">	
+				<!-- /notice/list.do?notice-content=" -->
+				<!-- /notice/list.do?notice-writer=" -->
 					<td>
 						<select>
-							<option>제목</option>
-							<option>내용</option>
-							<option>작성자</option>
+							<option name="search-subject">제목</option>
+							<option name="search-content">내용</option>
+							<option name="search-writer">작성자</option>
 						</select>
 					</td>
 					<td colspan="3">
